@@ -2,7 +2,7 @@
 ---------------------------------
 Including some online courses I take. 
 
-#some note
+some note
 ----------------------------------
 [Association Rules Generation from Frequent Itemsets](http://rasbt.github.io/mlxtend/user_guide/frequent_patterns/association_rules/)
 
