@@ -1,4 +1,4 @@
-# Data science skills practice
+Data science skills practice
 ---------------------------------
 Including some online courses I take. 
 
