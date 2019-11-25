@@ -1,0 +1,1 @@
+[^ab5] | Adding ^ excludes any character in the set. Here, it matches characters that are not a, b, or 5.
