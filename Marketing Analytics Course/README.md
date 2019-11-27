@@ -5,3 +5,11 @@ Note
 [mlogit](https://courses.edx.org/asset-v1:ColumbiaX+BAMM.104x+3T2019+type@asset+block/choice_mnl.html)
 
 [logit](https://courses.edx.org/asset-v1:ColumbiaX+BAMM.104x+3T2019+type@asset+block/LogisticReg.html)
+
+Skill
+------------------------------------------------------------------------------------------------
+1.Calculate Customer Life Time Value 
+2.Perform factor analysis on the data(ex:ranking of Customers)
+3.Customers segmentation
+4.Use logistic or multinomial logistic regression(or other classification models such as random forest) to model customers choices
+5.Use linear regression to make prediction
