@@ -1,11 +1,3 @@
-Note
------------------------------------------------------------------------------------------
-[R for marketing students](https://bookdown.org/content/1340/)
-
-[mlogit](https://courses.edx.org/asset-v1:ColumbiaX+BAMM.104x+3T2019+type@asset+block/choice_mnl.html)
-
-[logit](https://courses.edx.org/asset-v1:ColumbiaX+BAMM.104x+3T2019+type@asset+block/LogisticReg.html)
-
 Skill
 ------------------------------------------------------------------------------------------------
 1.Calculate Customer Life Time Value 
@@ -19,3 +11,11 @@ Skill
 5.Use linear regression to make prediction
 
 6.Implement RFM model to understand customers
+
+Note
+-----------------------------------------------------------------------------------------
+[R for marketing students](https://bookdown.org/content/1340/)
+
+[mlogit](https://courses.edx.org/asset-v1:ColumbiaX+BAMM.104x+3T2019+type@asset+block/choice_mnl.html)
+
+[logit](https://courses.edx.org/asset-v1:ColumbiaX+BAMM.104x+3T2019+type@asset+block/LogisticReg.html)
