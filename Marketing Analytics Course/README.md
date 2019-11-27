@@ -10,7 +10,7 @@ Skill
 ------------------------------------------------------------------------------------------------
 1.Calculate Customer Life Time Value 
 
-2.Perform factor analysis on the data(ex:ranking of Customers)
+2.Perform factor analysis on the data(ex:Ranking Of Customers)
 
 3.Customers segmentation
 
