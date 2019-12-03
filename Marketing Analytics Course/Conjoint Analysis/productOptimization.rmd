@@ -1,0 +1,123 @@
+---
+title: "Product Line Optimization Using Conjoint Analysis"
+output: html_notebook
+author: Asim Ansari
+---
+
+This is a toy example to illustrate how a firm can optimize a product line using conjoint resuls. Imagine that we conducted a conjoint analysis on a sample of customers and based on the estimated part-worths, we are able to calculate the overall utilities for each member of our sample, for any product profile. Also, suppose that the firm's R&D has identified a set of candidate products that could be produced, and the firm wants to choose a subset of three products that it wants to introduce. In this notebook, we will set up the optimization problem and show how R can be used to solve this problem. In particular, we will use Genetic algorithms to solve this optimization problem. 
+
+We begin by reading the data file that contains the overall utilities of 10 customers for 7 products.  In reality, conjoint data are available for a large sample of subjects, but here, we restrict the analysis to a very small subset to explain how things are done. 
+
+The first product is a status-quo product, which can be understood as a product that is already in the market. The firm is interested in introducing a line of products to compete against the status-quo product. The other six products are concepts that the firm's R&D has developed, and the firm is interested in introducing a product line of 3 products.
+
+```{r}
+utilsData <- read.csv("/home/maa48/Dropbox (CBS)/teaching/MarketingAnalytics/conjoint/productUtils.csv")
+```
+
+Given below are the profit margins for the six product concepts, excluding the status-quo product. This assumes that the firm has already set the prices for these product concepts, and the only decision is about which 3 to introduce as part of its product line. 
+
+```{r}
+margin<-c(8,7,8,6,9,7)
+```
+
+We convert the R dataframe into a matrix to facilitate further computation. 
+
+```{r}
+utils<-data.matrix(utilsData)
+dim(utils)
+```
+
+We now write a function that computes the total profits for the firm, given a product line. The product line is given via the function argument named "offered". This is a vector of binary indicators, one for each of the 6 products, such that the indicator of a product takes a value of 1 if the firm includes it in the product line, and 0, otherwise. For example, if offered is given by c(1,0,1,1,0,0), then it means that the first, the third and the fourth product form the product line. 
+
+Given a product line that is available in the market, consumers are assumed to compare the offered products with the status-quo and purchase the product with the hightest utility. Thus each consumer buys a single product, either the status-quo, or one from the product line. 
+
+```{r}
+profit<-function(offered, utils, margin){
+  
+  offered1<-c(1, offered)
+  
+  uOffered <- t(apply(utils, 1, function(x)(x * offered1)))
+  maxUtil <- apply(uOffered, 1, max)
+  
+  prodHighest<-matrix(0, nrow(utils), ncol(utils)-1)
+  
+  for(i in 1:nrow(utils)){
+    for(j in 2:ncol(utils)){
+      if(uOffered[i, j] == maxUtil[i]) {prodHighest[i,j-1]=1;break}
+    }
+  }
+  profitVec<-apply(prodHighest, 1, function(x){x %*% margin})
+  sum(profitVec)
+}
+```
+
+We can evaluate the profit function for specific values of its arguments. We see from below that when the 1st, fifth and sixth product are offered to the market as a product line, the firm can get joint profits of 55, where as, if it introduces the first and the fifth, it makes a profit of 51.
+
+```{r}
+profit(c(1,0, 0, 0, 1,1),utils, margin)
+profit(c(1,0, 0, 0, 1,0),utils, margin)
+```
+
+The firm is interested in finding the optimal product line of numProd (e.g., 3) products that maximizes its profits for this market of customers. This is a constrained optimization problem where the decision variables are binary, and the constraint is such that the decision variables should sum to numProd. Given that we are dealing with binary variables, we use genetic algorithms to solve this problem, using the GA library in R. The constraint is incorporated via a penalty term, which penalizes potential solutions if the number of products offered varies from the desired number of products, i.e., numProd. We therefore use the following objective function.
+
+
+```{r}
+obj<-function(offered, utils, margin, numProd){
+  
+  pr<-profit(offered, utils, margin)
+  penalty<-10*max(margin)*abs(sum(offered)-numProd)
+  
+  pr-penalty
+}
+
+obj(c(1,1, 1, 0, 0,1),utils, margin, 4 )
+
+```
+We can see below that if we deviate from the desired number of products, the penalty kicks in and the objective function value is reduced significantly.
+
+```{r}
+obj(c(1,1, 1, 0, 0,1),utils, margin, 3 )
+
+```
+
+We now use the GA package to perform the optimization. 
+
+
+```{r}
+library("GA")
+gaOpt<-ga("binary", fitness=obj, utils=utils, margin=margin, numProd=3, nBits=length(margin), maxiter=100)
+```
+
+We can see from below that the optimal objective function value is 77, and the optimal solution involves launching 3 products, namely 1, 2 and 5. 
+
+```{r}
+summary(gaOpt)
+```
+```{r}
+sol <- gaOpt@solution
+sol
+```
+
+The following shows how the Genetic algorithm stochastically improves the objective function value over the iterations. 
+
+```{r}
+plot(gaOpt)
+```
+The following table shows the utilities that the 10 subjects derive from the status quo product and the products within the product line.
+
+```{r}
+t(apply(utils, 1, function(x)(x * c(1,sol[1,]))))
+
+```
+
+We can compute the optimal profit using the profit function that we specified above. Note that the profit function is distinct from the objective function, as the latter also contains the penalty term.
+
+```{r}
+profit(sol[1,], utils, margin)
+```
+
+References
+
+Belloni A, Robert Freund, Matthew Selove, and Duncan Simester (2008), "Optimizing Product Line Designs: Efficient Methods and Comparisons," Management Science, 54(9), 1544-1552.
+
+Green P. E., Krieger A. M. Models and heuristics for product line selection. Marketing Science. (1985) 4(1):1–19.
