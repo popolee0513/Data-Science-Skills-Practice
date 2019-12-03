@@ -1,0 +1,190 @@
+---
+title: "R Notebook"
+output:
+  html_notebook: default
+  html_document: default
+  pdf_document: default
+header-includes: \usepackage{bbm}
+---
+
+## Packages
+
+To perform the analysis, you need to have the following packages installed: 
+
+1. ggplot2
+2. ggthemes
+3. xtable 
+4. knitr
+5. mlogit
+6. caret
+7. e1071
+
+# Choice-based conjoint analysis
+
+The purpose of choice-based conjoint is to estimate how different levels of different attributes (e.g., for tablets -- levels of price, brand names, screen size, etc.) affect consumer's demand for the product. It is usually performed by repeatedly asking an individual to select one alternative from a small set -- where characteristics of available options are varied from one choice set to another. 
+
+Once the choice model based on such data has been estimated, we can use the parameter estimates to assess relative importance of different attributes of a product.
+
+## Data
+
+We will work with *conjoint_tablet_data.csv* file. The file contains data on choices made by 137 subjects. Each subject evaluated 15 choice sets. Thus, the file contains data on 137 * 15 = 2055 choice sets. Each choice set had three alternatives. 
+
+A subject's task was to choose one alternative from a choice set. Each alternative was described using the following attributes: brand name, screen size, size of hard drive, RAM, battery life, and price. 
+
+Column 1 (consumer id) identifies each of the 137 subjects. Column 2 (choice set id) identifies each of 2055 choice sets. Column 3 (alternative id in set) identifies the three alternatives in a choice set. Column 4 identifies the id of the alternative chosen from the choice set. The remaining columns contain attributes for each alternative. 
+
+```{r}
+
+library("xtable") # processing of regression output
+library("knitr") # used for report compilation and table display
+library("ggplot2") # very popular plotting library ggplot2
+library("ggthemes") # themes for ggplot2
+suppressMessages(library("mlogit")) # multinomial logit
+library("caret") # confusion matrix
+
+# loading data
+
+data <- read.csv(file = "conjoint_tablet_data.csv")
+
+# defining reference levels - used when estimating model
+
+data$Brand <- relevel(data$Brand, ref = 'Nexus')
+data$Size <- relevel(data$Size, ref = 'sz7inch')
+data$Storage <- relevel(data$Storage, ref = 'st16gb')
+data$Ram <- relevel(data$Ram, ref = 'r1gb')
+data$Battery <- relevel(data$Battery, ref = 'b7h')
+#data$Price <- relevel(data$Price, ref = 'p169')
+
+# we treat price as continuous (even though it was evaluated at discrete levels when the data was collected)
+# we first do preprocessig to remove character 'p' from price variable, and then turn the variable into numeric class
+
+data$Price <- as.numeric(gsub("p","",data$Price))
+
+kable(head(data,6))
+
+```
+
+In the table above, you can see two choice sets displayed for consumer #1. Each row corresponds to an alternative and characteristics that describe it. Each choice set has three alternatives and the individual selected one alternative in each set -- which happened to be alternative #1 in both cases. The ordering of alternatives within a choice set has no special meaning.
+
+## Multinomial conjoint model estimation
+
+We use mlogit package to train a conjoint multinomial choice model. First, we use provided function *mlogit.data()* to create a specially formatted data object that will be used in estimation.
+
+```{r}
+mdata <- mlogit.data(data=data,
+                     choice='Choice', # variable that contains choice
+                     shape='long', # tells mlogit how data is structured (every row is alternative)
+                     varying=5:10, # columns that contain variables that vary across alternatives
+                     alt.levels = paste('alternative',1:3), # levels of the alternatives
+                     id.var='ConsumerId') # consumer id
+kable(head(mdata,6))
+```
+
+When we run the model, it selects the *reference* level for each *discrete* attribute. The utility of the reference level is normalized to zero. We specified a reference level for each discrete attribute at the data-loading stage. These reference levels are Nexus, 7" screen, 16GB HD, 1GB RAM, 7-hour battery. We treat price as a continuous variable, so we do not need to specify a reference level.
+
+The model assumes the utility of alternative $j$ without an error term is expressed as follows
+
+\begin{align*}
+V_j = & \beta_{11}\mathbb{1}\left[\text{Brand=Galaxy}\right] + \beta_{12}\mathbb{1}\left[\text{Brand=iPad}\right] + \beta_{13}\mathbb{1}\left[\text{Brand=Kindle}\right] + \beta_{14}\mathbb{1}\left[\text{Brand=Surface}\right] + \\
+&\beta_{21}\mathbb{1}\left[\text{Screen=10inch}\right] + \beta_{22}\mathbb{1}\left[\text{Screen=9inch}\right] + \beta_{23}\mathbb{1}\left[\text{Screen=8inch}\right]+\\
+&\beta_{31}\mathbb{1}\left[\text{Storage=128gb}\right] + \beta_{32}\mathbb{1}\left[\text{Storage=64gb}\right] + \beta_{33}\mathbb{1}\left[\text{Storage=32gb}\right]+\\
+&\beta_{41}\mathbb{1}\left[\text{RAM=4gb}\right] + \beta_{42}\mathbb{1}\left[\text{RAM=2gb}\right] +\\
+&\beta_{51}\mathbb{1}\left[\text{Battery=9h}\right] + \beta_{52}\mathbb{1}\left[\text{Battery=8h}\right] +\\ &\beta_{6}\text{Price}
+\end{align*}
+
+where $U_j = V_j + \text{error}$. That is, there are 15 parameters $\beta$ to estimate.
+
+Assuming independent extreme value error distribution, consumer chooses alternative $j$ from the choice set of three alternatives with probability $$p_j = \frac{\exp(V_j)}{\exp(V_1)+\exp(V_2)+\exp(V_3)},\ \ j\in\{1,2,3\}$$
+
+Clearly, $p_1+p_2+p_3=1$
+
+And now we actually estimate the model.
+
+```{r}
+set.seed(999) # remember to set the random seed to ensure replicability
+
+model <- mlogit(Choice~0+Brand+Size+Storage+Ram+Battery+Price,data=mdata) # 0+ tells model to exclude intercept 
+
+#summary(model)
+kable(xtable(summary(model)$CoefTable))
+```
+
+## Meaning of parameters
+
+After estimation, we obtain a coefficient estimate for each level (except the reference one) of every discrete attribute. Such a coefficient captures relative utility or *partworth* of the level of attribute compared to the reference. For example, in case of brand attribute, *BrandiPad* coefficient gives us an estimate of iPad's brand relative utility compared to Nexus (reference brand). 
+
+In case of the continuous price, we get a single coefficient, which captures how utility of the alternative changes when price goes up by one unit ($1), holding all other characteristics of the alternative fixed.
+
+
+## Prediction
+
+We can also use the estimated parameters to predict the probabilities of the choice for different alternatives in the data. Here we print the prediction for the first five choice sets in the data. 
+
+```{r}
+head(predict(model,mdata),5)
+```
+
+And now we can measure the accuracy of prediction across all data.
+
+```{r}
+predicted_alternative <- apply(predict(model,mdata),1,which.max)
+
+selected_alternative <- data$AlternativeIdInSet[data$Choice>0]
+
+confusionMatrix(table(predicted_alternative,selected_alternative),positive = "1")
+
+```
+Note that if the predictions were random, the accuracy would be 33.3% (for three alternatives). Our simple model is doing much better than that -- although it is not perfect.
+
+## Conjoint simulator
+
+And now let us see how we can use model parameters to predict market shares under hypothetical market scenarios for an arbitrary set of products.
+
+```{r}
+# function to predict market share for an arbitrary set of alternatives available in dataset d.
+
+predict.share <- function(model, d) {
+  temp <- model.matrix(update(model$formula, 0 ~ .), data = d)[,-1] # generate dummy matrix
+  u <- temp%*%model$coef[colnames(temp)] # calculate utilities
+  probs <- t(exp(u)/sum(exp(u))) # calculate probabilities
+  colnames(probs) <- paste("alternative", colnames(probs))
+  return(probs)
+}
+
+# hypothetical base market structure with 4 alternatives in the market
+
+d.base <- data[c(44,34,33,40),c("Brand","Size","Storage","Ram", "Battery","Price")]
+
+d.base <- cbind(d.base,as.vector(predict.share(model,d.base)))
+
+colnames(d.base)[7] <- 'Predicted.Share'
+rownames(d.base) <- c()
+
+kable(d.base)
+
+# hypothetical market structure after Galaxy gets a RAM upgrade
+
+d.new <- d.base
+d.new[2,'Ram'] <- "r4gb"
+
+d.new$Predicted.Share <- as.vector(predict.share(model,d.new))
+kable(d.new)
+```
+
+## Willingness to pay
+
+Very importantly, using parameter estimates, we can calculate how much a consumer would be willing to pay for the selected level of an attribute by dividing coefficient for that level by the coefficient for the price. In other words, we estimate what change in price would cause shift in utility equivalent to that due to change in the level of the attribute in question from the reference level. 
+
+For example, we see that an average consumer would be indifferent between getting a Galaxy vs. paying \$125.8 more and getting an iPad. Phrasing this differently, an average consumer would be willing to pay up to \$125.8 to get an iPad instead of a Nexus, holding all other characteristics fixed.
+
+```{r}
+# brand equity - dollar value of an upgrade from Galaxy to iPad
+-(coef(model)['BrandiPad']-coef(model)['BrandGalaxy']) / coef(model)['Price']
+
+# dollar value of an upgrade from 1gb to 4gb ram  (1gb is reference level, hence its coeff is 0)
+-coef(model)['Ramr4gb'] / coef(model)['Price']
+
+# dollar value of an upgrade from 7 inch to 9 inch screen (7 inch is reference level)
+-coef(model)['Sizesz9inch'] / coef(model)['Price']
+```
+
