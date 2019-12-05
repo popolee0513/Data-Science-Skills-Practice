@@ -5,11 +5,8 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import SnowballStemmer,WordNetLemmatizer
 stemmer=SnowballStemmer('english')
 lemma=WordNetLemmatizer()
-total_word=[]
 def process(x):
     x=re.sub("[^a-zA-Z]+", " " ,x) #過濾掉非字母
     x=[lemma.lemmatize(w) for w in word_tokenize(str(x).lower())] #做詞形還原（lemmatization)
-    for i in x:
-        total_word.append(i)
     x=' '.join(x)
     return x
