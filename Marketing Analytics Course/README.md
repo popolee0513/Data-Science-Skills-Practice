@@ -12,6 +12,8 @@ Skill
 
 6.Implement RFM model to understand customers
 
+7.Conjoint Analysis
+
 Note
 -----------------------------------------------------------------------------------------
 [R for marketing students](https://bookdown.org/content/1340/)
