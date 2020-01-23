@@ -44,3 +44,25 @@ tree_cv.fit(X,y)
 # Print the tuned parameters and score
 print("Tuned Decision Tree Parameters: {}".format(tree_cv.best_params_))
 print("Best score is {}".format(tree_cv.best_score_))
+
+---------------------------------------------------------------------------------
+param_C = [0.1, 1.0, 10.0, 100.0, 1000.0, 10000.0]
+param_gamma = [0.00001, 0.0001, 0.001, 0.01, 0.1, 1.0]
+
+svm = SVC(random_state=0)
+
+# set the param_grid parameter of GridSearchCV to a list of dictionaries
+param_grid = [{'C': param_C, 
+               'gamma': param_gamma, 
+               'kernel': ['rbf']}]
+gs = GridSearchCV(estimator=svm, 
+                  param_grid=param_grid, 
+                  scoring='accuracy')
+
+gs = gs.fit(X_train_std, y_train)
+print(gs.best_score_)
+print(gs.best_params_)
+
+
+
+
