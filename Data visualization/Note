@@ -1,1 +1,0 @@
-#df_can.columns = list(map(str, df_can.columns))
