@@ -1,6 +1,7 @@
 In distance-based classification, for instance, 
 we need to normalize eache feature value of a feature vector 
 in order to not be affected more by features with wider range of possible values when computing distances.
+For example
 If a feature has range in [-1,1] and another feature has range in [-100; 100], 
 a small variation in the feature 2 is probably more influencing than a big variation in feature 1 
 when computing the distance of two feature vectors.
