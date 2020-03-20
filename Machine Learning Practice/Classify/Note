@@ -5,3 +5,14 @@ For example
 If a feature has range in [-1,1] and another feature has range in [-100; 100], 
 a small variation in the feature 2 is probably more influencing than a big variation in feature 1 
 when computing the distance of two feature vectors.
+
+#################################################################################
+Decision Tree
+tree 越往下長> 被越來越少數的training data 來support 
+那些判斷式是根據比較少數的traing data 所學習得來
+一個 node is backed by less training data > low confidence(不見得會apply 到不同 traing data)
+                                          >  比較無法generalize 到 testing data
+                                        
+
+
+
