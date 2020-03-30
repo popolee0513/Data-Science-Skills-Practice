@@ -8,7 +8,7 @@ Skill
 
 4.Use logistic or multinomial logistic regression(or other classification models) to model customers choices
 
-5.Use linear regression to make prediction
+5.A
 
 6.Implement RFM model to understand customers
 
