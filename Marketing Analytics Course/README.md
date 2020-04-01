@@ -6,7 +6,7 @@ Skill
 
 3.Customers segmentation
 
-4.Use logistic or multinomial logistic regression(or other classification models) to model customers choices
+4.Use logistic or other classification models to model customers choices
 
 5.Analyze the data using linear regression
 
