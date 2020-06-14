@@ -1,0 +1,8 @@
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+import matplotlib.pyplot as plt
+silhouette_avg = []
+for i in range(2,11):
+    kmeans_fit = KMeans(n_clusters = i).fit(X)
+    silhouette_avg.append(silhouette_score(X, kmeans_fit.labels_))
+plt.plot(range(2,11), silhouette_avg)
