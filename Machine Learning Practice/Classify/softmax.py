@@ -38,7 +38,7 @@ def softmax_loss_naive(W, b, X, Y, reg):
         loss-=np.dot(np.log(val.T),Y[i].reshape(-1,1))/X.shape[0]
         dW+=(val-Y[i].reshape(-1,1))*X[i]/X.shape[0]
         db+=(val-Y[i].reshape(-1,1))/X.shape[0]
-    loss+=np.sum(W**2)/2
+    loss+=reg*np.sum(W**2)/2
     dW+=W
     #############################################################################
     #                         END OF YOUR CODE                                 #
@@ -87,7 +87,7 @@ def softmax_loss_vectorized(W, b, X, Y, reg):
     loss=np.sum(loss)
     dW=np.dot(val-Y.T,X)/X.shape[0]
     db=np.sum((val-Y.T),axis=1).reshape(-1,1)/X.shape[0]
-    loss+=np.sum(W**2)/2
+    loss+=reg*np.sum(W**2)/2
     dW+=W
 
     #############################################################################
