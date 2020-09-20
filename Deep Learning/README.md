@@ -1,3 +1,6 @@
+Deep Learning
+
+
 Neural Networks and Deep Learning
 ------------------------------------------
 If you want to break into cutting-edge AI, this course will help you do so. Deep learning engineers are highly sought after, and mastering deep learning will give you numerous new career opportunities. Deep learning is also a new "superpower" that will let you build AI systems that just weren't possible a few years ago. 
