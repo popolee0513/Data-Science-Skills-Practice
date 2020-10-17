@@ -1,3 +1,5 @@
+AI for Medical Diagnosis
+---------------------------------
 AI is transforming the practice of medicine. It’s helping doctors diagnose patients more accurately, make predictions about patients’ future health, and recommend better treatments. As an AI practitioner, you have the opportunity to join in this transformation of modern medicine. If you're already familiar with some of the math and coding behind AI algorithms, and are eager to develop your skills further to tackle challenges in the healthcare industry, then this specialization is for you. No prior medical expertise is required! 
 
 This program will give you practical experience in applying cutting-edge machine learning techniques to concrete problems in modern medicine:
