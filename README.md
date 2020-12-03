@@ -4,7 +4,7 @@ Including some online courses I take.
 
 Note
 ----------------------------------
-[MONPA 是一個提供正體中文斷詞、詞性標註以及命名實體辨識的多任務模型](https://pypi.org/project/monpa/)
+[MONPA 是一個提供繁體中文斷詞、詞性標註以及命名實體辨識的多任務模型](https://pypi.org/project/monpa/)
 
 [Association Rules Generation from Frequent Itemsets](http://rasbt.github.io/mlxtend/user_guide/frequent_patterns/association_rules/)
 
