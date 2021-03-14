@@ -1,3 +1,0 @@
-call C:\Users\TatungSS\Anaconda3\Scripts\activate.bat C:\Users\TatungSS\Anaconda3\envs\django
-cd  /d C:\Users\TatungSS
-python Solar.py
