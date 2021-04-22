@@ -14,3 +14,5 @@ AutoGraph
 -------------------------------------------------------------------
 隨著eager execution的產生，衍生而成的需求就是AutoGraph了，也就是如何妥善的在eager與graph間轉換。而隨著session的消失、原生Python function的引入，帶來的就是tf.function了。
 tf.function 的魔力在於將所有在eager下的計算，全部自動建好graph，也就是所謂的AutoGraph。因此可以引入graph的各項優勢，最直覺的就是運算速度上的提升。
+
+在Tensorflow的設計下，tf.function 是一個decorator，任何經由@tf.function 裝飾的function可以像原本一樣的被使用，但額外的獲得AutoGraph的效果。
