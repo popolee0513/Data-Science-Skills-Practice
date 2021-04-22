@@ -7,3 +7,5 @@ Eager execution 又被稱為 Eager mode：可以使用者在建置模型時，�
 2.更容易除錯：可使用 Python 標準函式庫的 debugger 除錯或檢查一個運算元的輸入和輸出
 
 3.更自然的程式碼 flow control：直接用 Python 的 if...else 即可
+
+4.Eager mode 的目標是在研發 prototype 設計階段時使用，若在生產階段，則需要在圖形模式下運行
