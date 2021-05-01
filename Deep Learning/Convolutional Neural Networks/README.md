@@ -6,4 +6,4 @@
 
 [Neural Style Transfer (with picture)](https://nbviewer.jupyter.org/github/enggen/Deep-Learning-Coursera/blob/master/Convolutional%20Neural%20Networks/Week4/Neural%20Style%20Transfer/Art%20Generation%20with%20Neural%20Style%20Transfer%20-%20v1.ipynb)
 
-[tf.InteractiveSession()与tf.Session()區別](https://blog.csdn.net/M_Z_G_Y/article/details/80416226)
+
