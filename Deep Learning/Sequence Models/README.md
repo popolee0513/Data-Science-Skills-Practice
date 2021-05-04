@@ -9,7 +9,7 @@ RNN 梯度消失
 RNN-based network is not always easy to learn.
 The error surface is rough.
 
-![梯度消失與爆炸](https://ithelp.ithome.com.tw/upload/images/20191006/201204067w4Q4zFNH3.png=80%x)
+![梯度消失與爆炸](https://ithelp.ithome.com.tw/upload/images/20191006/201204067w4Q4zFNH3.png =80%x)
 
 由舉例得知“w 在 0~0.99 之間變化，可能完全沒有造成影響；但 w 超過 1 後，只要一有影響，就是巨大的影響”
 也就是會發生Gradient Vanish(梯度消失)或梯度爆炸的問題
