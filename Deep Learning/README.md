@@ -30,5 +30,5 @@ Deep Learning
 序列模型
 ---
 - [第一週_循環序列模型](https://hackmd.io/s/Bym45KooM)
-- [第二週_自然語言處理_整理中](https://hackmd.io/s/rkV_SyxpM)
+- [第二週_自然語言處理](https://hackmd.io/s/rkV_SyxpM)
 - [第三週_序列模型與注意力機制](https://hackmd.io/s/H1y-dM6TM)
