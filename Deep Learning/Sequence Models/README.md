@@ -15,3 +15,7 @@ RNN中容易出現Gradient Vanishing是因為
 2.不適當的激活函數sigmoid，可改用relu或maxout
 
 而梯度爆炸的部分: 有一種暴力的方法就是，當梯度的大小超過某個閾值的時候，將其縮放到某個閾值
+
+Transformer影片
+----------------------------------
+[https://youtu.be/ugWDIIOHtPA](Transformer影片)
