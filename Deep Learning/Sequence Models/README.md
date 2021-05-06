@@ -18,4 +18,4 @@ RNN中容易出現Gradient Vanishing是因為
 
 Transformer影片
 ----------------------------------
-[https://youtu.be/ugWDIIOHtPA](Transformer影片)
+[https://www.youtube.com/watch?v=ugWDIIOHtPA](Transformer影片)
