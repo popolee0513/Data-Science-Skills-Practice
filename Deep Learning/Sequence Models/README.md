@@ -16,8 +16,6 @@ RNN中容易出現Gradient Vanishing是因為
 
 而梯度爆炸的部分: 有一種暴力的方法就是，當梯度的大小超過某個閾值的時候，將其縮放到某個閾值
 
-LSTM
----------------------------------------
 <img src="https://github.com/popolee0513/Data-Science-Skills-Practice/blob/master/Deep%20Learning/Sequence%20Models/PIC/LSTM.png?raw=true" width="50%" height="50%">
 
 Transformer影片
