@@ -12,10 +12,16 @@ RNN中容易出現Gradient Vanishing是因為
 ----------------
 1.在梯度在向後傳遞的時候，由於相同的矩陣相乘次數太多，梯度傾向於逐漸消失，導致後面的結點無法更新參數，整個學習過程無法正常進行
 
-2.不適當的激活函數sigmoid，可改用relu或maxout
+2.使用LSTM或GRU
 
 而梯度爆炸的部分: 有一種暴力的方法就是，當梯度的大小超過某個閾值的時候，將其縮放到某個閾值
+
+LSTM
+---------------------------------------
+<img src="https://github.com/popolee0513/Data-Science-Skills-Practice/blob/master/Deep%20Learning/Sequence%20Models/PIC/LSTM.png?raw=true" width="50%" height="50%">
 
 Transformer影片
 ----------------------------------
 [Transformer影片](https://www.youtube.com/watch?v=ugWDIIOHtPA)
+
+
