@@ -18,8 +18,6 @@ RNN中容易出現Gradient Vanishing是因為
 
 <img src="https://github.com/popolee0513/Data-Science-Skills-Practice/blob/master/Deep%20Learning/Sequence%20Models/PIC/LSTM.png?raw=true" width="50%" height="50%">
 
-Transformer影片
-----------------------------------
-[Transformer影片](https://www.youtube.com/watch?v=ugWDIIOHtPA)
+
 
 
