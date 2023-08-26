@@ -5,4 +5,4 @@
   - [lightfm](https://github.com/lyst/lightfm)
   - factorization machine
     - [初探Factorization Machine(I)](https://yulongtsai.medium.com/factorization-machine-63160bc2c06b)
-    - [Factorization Machines with Tensorflow](https://nowave.it/factorization-machines-with-tensorflow.html)
+    - [Movie Recommender from Pytorch to Elasticsearch](https://yonigottesman.github.io/recsys/pytorch/elasticsearch/2020/02/18/fm-torch-to-recsys.html?fbclid=IwAR3uOTm4VKT-hr0pPL77nIDws1g81eP5vt5YZbizybiDhbLWCy6mBqm4RF8)
